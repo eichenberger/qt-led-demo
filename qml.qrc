@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>toradex.png</file>
+    </qresource>
+</RCC>
