@@ -11,6 +11,7 @@ class Led : public QObject
     Q_OBJECT
 public:
     explicit Led(QObject *parent = nullptr);
+    ~Led();
 
 signals:
 

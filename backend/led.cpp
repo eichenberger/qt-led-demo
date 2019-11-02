@@ -8,6 +8,11 @@ Led::Led(QObject *parent) : QObject(parent)
     gpio = new Gpio(QString("led"));
 }
 
+Led::~Led()
+{
+    delete gpio;
+}
+
 void Led::enable()
 {
     qDebug() << "Enable LED";
