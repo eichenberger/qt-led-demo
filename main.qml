@@ -4,16 +4,12 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
 
-import led 1.0
+import Qt.WebSockets 1.0
 
 Window {
     id: window
     visible: true
     title: qsTr("Hello World")
-
-    Led {
-        id: led
-    }
 
     Rectangle {
         color: "#00508c"
@@ -50,7 +46,8 @@ Window {
                     }
 
                     onClicked: {
-                        led.enable();
+                        //led.enable();
+                        backend.sendTextMessage("enable");
                         virtualled.color = "#00ff00";
                     }
                 }
@@ -68,12 +65,19 @@ Window {
                     }
 
                     onClicked: {
-                        led.disable();
+//                        led.disable();
+                        backend.sendTextMessage("disable");
                         virtualled.color = "#ff0000";
                     }
                 }
             }
         }
+    }
+
+    WebSocket {
+        id: backend
+        url: "ws://localhost:8081/led/0"
+        active: true
     }
 }
 

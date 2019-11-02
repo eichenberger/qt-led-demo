@@ -1,10 +1,14 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include <QtWebSockets/QWebSocketServer>
+
 #include "led.h"
+#include "backend.h"
 
 int main(int argc, char *argv[])
 {
+
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
 
     if (qEnvironmentVariableIsEmpty("QTGLESSTREAM_DISPLAY")) {
@@ -14,14 +18,22 @@ int main(int argc, char *argv[])
         QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     }
 
-    qmlRegisterType<Led>("led", 1, 0, "Led");
-
     QGuiApplication app(argc, argv);
 
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    if (engine.rootObjects().isEmpty())
-        return -1;
+    if (argc == 1 || QString("frontend") == argv[1] ) {
 
-    return app.exec();
+        QQmlApplicationEngine engine;
+        engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+        if (engine.rootObjects().isEmpty())
+            return -1;
+
+        return app.exec();
+
+    }
+    else if(QString("backend") == argv[1]) {
+        Backend backend;
+        return app.exec();
+    }
+
+
 }
