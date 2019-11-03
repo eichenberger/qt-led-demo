@@ -78,8 +78,8 @@ Window {
         url: "ws://" + hostname + ":" + port + "/led/0"
         active: true
         onStatusChanged: {
-            if (status == WebSocket.Open ||
-                    status == WebSocket.Connecting)
+            if (status === WebSocket.Open ||
+                    status === WebSocket.Connecting)
                 reconnect.running = false;
             else {
                 active = false;
