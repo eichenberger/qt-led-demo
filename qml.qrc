@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>toradex.png</file>
+        <file>embear.png</file>
     </qresource>
 </RCC>

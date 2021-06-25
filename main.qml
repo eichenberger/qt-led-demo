@@ -2,21 +2,24 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-import QtQuick.Controls.Styles 1.4
 
 import led 1.0
 
 Window {
     id: window
+    width: 480
+    height: 800
     visible: true
     title: qsTr("Hello World")
 
     Led {
+        property bool isEnabled: false
         id: led
+        onIsEnabledChanged: isEnabled ? enable() : disable()
     }
 
     Rectangle {
-        color: "#00508c"
+        color: "#FFFFFF"
         anchors.fill: parent
         ColumnLayout {
             anchors.fill: parent
@@ -24,7 +27,7 @@ Window {
             Image {
                 id: image1
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                source: "toradex.png"
+                source: "embear.png"
             }
 
             Rectangle {
@@ -33,51 +36,74 @@ Window {
                 height: 100
                 radius: 50
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                color: "#ff0000"
+                color: "#474947"
+
+                states: State {
+                    name: "on"; when: led.isEnabled
+                    PropertyChanges { target: virtualled; color: "#C57452" }
+                }
+
+                transitions: Transition {
+                    ColorAnimation { duration: 1000 }
+                }
             }
 
             RowLayout {
                 id: rowLayout
                 Button {
-                    id: button
+                    id: onButton
                     text: qsTr("ON")
                     Layout.minimumHeight: 100
                     display: AbstractButton.TextBesideIcon
                     Layout.fillWidth: true
                     background: Rectangle {
+                        id: onButtonColor
                         anchors.fill: parent
-                        color: parent.pressed ?  "#00dd00" : "#00ff00"
+                        color: "#C57452"
+
+                        states: State {
+                            name: "pressed"; when: onButton.pressed
+                            PropertyChanges { target: onButtonColor; color: "#D58462" }
+                        }
+
+                        transitions: Transition {
+                            ColorAnimation { duration: 200 }
+                        }
                     }
 
                     onClicked: {
-                        led.enable();
-                        virtualled.color = "#00ff00";
+                        led.isEnabled = true
                     }
                 }
 
                 Button {
-                    id: button1
+                    id: offButton
                     text: qsTr("OFF")
                     Layout.minimumHeight: 100
                     display: AbstractButton.TextBesideIcon
                     Layout.fillWidth: true
 
                     background: Rectangle {
+                        id: offButtonColor
                         anchors.fill: parent
-                        color: parent.pressed ?  "#dd0000" : "#ff0000"
+                        color: "#474947"
+
+                        states: State {
+                            name: "pressed"; when: offButton.pressed
+                            PropertyChanges { target: offButtonColor; color: "#373937" }
+                        }
+
+                        transitions: Transition {
+                            ColorAnimation { duration: 200 }
+                        }
+
                     }
 
                     onClicked: {
-                        led.disable();
-                        virtualled.color = "#ff0000";
+                        led.isEnabled = false
                     }
                 }
             }
         }
     }
 }
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
- ##^##*/

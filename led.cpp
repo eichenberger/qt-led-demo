@@ -5,7 +5,9 @@
 
 Led::Led(QObject *parent) : QObject(parent)
 {
-    gpio = new Gpio(QString("led"));
+    gpio = new Gpio(QString("MXM3_188"));
+    Gpio red_led(QString("MXM3_178"));
+    red_led.disable();
 }
 
 void Led::enable()
